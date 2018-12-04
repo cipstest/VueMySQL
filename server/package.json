@@ -1,0 +1,23 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Server side integrated app for Nodemysql.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cipstest/VueMySQL.git"
+  },
+  "author": "Lupsa Ciprian",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cipstest/VueMySQL/issues"
+  },
+  "homepage": "https://github.com/cipstest/VueMySQL#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mysql": "^2.16.0"
+  }
+}
