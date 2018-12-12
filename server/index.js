@@ -1,39 +1,29 @@
 const express = require("express");
-const mysql = require("mysql");
+const bparser = require("body-parser");
+const morgan = require("morgan");
+const cors = require("cors");
 
-const port = "3000";
+const { sequelize } = require("./models");
 
-// Create MySQL connection
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: ""
-  //   ,
-  //   database: "testdb"
-});
-
-(async () => {
-  await db.connect(err => {
-    if (err) {
-      throw err;
-    }
-    console.log("MySQL Connected.");
-  });
-  console.log("Done");
-})();
+const config = require("./config/config");
+// const mysql = require("mysql");
 
 const app = express();
+app.use(morgan("combined"));
+app.use(bparser.json());
+app.use(cors());
 
-// Create Database
-app.get("/createdb", (req, response) => {
-  let sql = "CREATE DATABASE testdb";
-  db.query(sql, (err, result) => {
-    if (err) throw err;
-    console.log(response);
-    response.send("Database created.");
+require("./routes")(app);
+
+app.get("/status", (req, res) => {
+  res.send({
+    message: "Working!"
   });
 });
 
-app.listen(port, () => {
-  console.log("Server started on port " + port);
+sequelize.sync().then(() => {
+  // Wait for sequelize to sync with the database then start the server
+  app.listen(config.port, () => {
+    console.log("Server started on port " + config.port);
+  });
 });
